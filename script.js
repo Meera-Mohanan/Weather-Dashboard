@@ -25,9 +25,9 @@ function displaySearchedCity() {
 
 displaySearchedCity();
 
-//function to make api call to retrieve lat & lon of respective city and make current weather and fivedayweather ap call
+//function to make api call to retrieve lat & lon of respective city and make current weather and fivedayweather api call
 function fetchWeather(city) {
-    let coords = `https://api.openweathermap.org/geo/1.0/direct?q=${city}&appid=${apiKey}`;
+    let coords = `https://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${apiKey}`;
     fetch(coords)
     .then(function(response){return response.json()})
     .then(function(data){ 
@@ -90,7 +90,7 @@ function forecastWeather(forecastUrl) {
     });        
 }
   
-//clear local storage
+//clear recent searches
 $("#clear").on("click", function () {
     localStorage.clear();
     $("#storedCity").html("");
