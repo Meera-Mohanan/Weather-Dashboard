@@ -1,9 +1,9 @@
 //Select DOM Elements
-let submitFormEl = document.querySelector("#searchBtn");
-let inputEl = document.querySelector("#cityName");
+const submitFormEl = document.querySelector("#searchBtn");
+const inputEl = document.querySelector("#cityName");
 
 //variables
-let apiKey = "b6a9ee1026ace10f38b2457d21198081";
+let apiKey = "6ff082132626dd95015f6bf3e2f0aaff";
 let storedCity = JSON.parse(localStorage.getItem("storedCity")) || [];
 let city;
 let units='imperial';
