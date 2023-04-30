@@ -8,6 +8,6 @@ Server-Side APIs: Weather Dashboard. This is a useful app where users can look f
 *User is presented with with a 5-day forecast that displays the date, an icon representation of weather conditions, the temperature, the wind speed, and the humidity.
 *User is given option for easy navigation by clicking in the search history to view current and future conditions for that city.
 *User can also clear history and then start the search again from the beginning with no search history.
-Screenshot 2023-04-30 230754.png
-Screenshot 2023-04-30 230813.png
-Screenshot 2023-04-30 230856.png
+![Screenshot 2023-04-30 230754](https://user-images.githubusercontent.com/126405858/235360825-ffe09963-9ef4-423b-8fdb-e971720bb9c4.png)
+![Screenshot 2023-04-30 230813](https://user-images.githubusercontent.com/126405858/235360832-9dadb308-b639-463f-941e-77086919a065.png)
+![Screenshot 2023-04-30 230856](https://user-images.githubusercontent.com/126405858/235360835-526bf038-3dfb-43d0-8875-0107f9f5225d.png)
