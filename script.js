@@ -23,7 +23,6 @@ function displaySearchedCity() {
         });
     }
 }
-
 displaySearchedCity();
 
 //function to make api call to retrieve lat & lon of respective city and make current weather and fivedayweather api call
