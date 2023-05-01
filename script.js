@@ -6,7 +6,8 @@ const inputEl = document.querySelector("#cityName");
 let apiKey = "6ff082132626dd95015f6bf3e2f0aaff";
 let storedCity = JSON.parse(localStorage.getItem("storedCity")) || [];
 let city;
-let units='imperial';
+let units = 'imperial';
+let cityName;
 
 //get saved cities from local storage and display the as a list
 function displaySearchedCity() {
@@ -29,29 +30,30 @@ displaySearchedCity();
 function fetchWeather(city) {
     let coords = `https://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${apiKey}`;
     fetch(coords)
-    .then(function(response){return response.json()})
-    .then(function(data){ 
-        //console.log(data);
-        let lat = data[0].lat;
-        let lon = data[0].lon;
-        //console.log(lat,lon,apiKey,units);
-        currentWeather(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=${units}`);
-        forecastWeather(`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}&units=${units}`);
-        inputEl.value = "";
-        $(".futureForecast").html("");    
-    });
+        .then(function (response) { return response.json() })
+        .then(function (data) {
+            console.log(data);
+            let lat = data[0].lat;
+            let lon = data[0].lon;
+            cityName = data[0].name
+            //console.log(lat,lon,apiKey,units);
+            currentWeather(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=${units}`);
+            forecastWeather(`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}&units=${units}`);
+            inputEl.value = "";
+            $(".futureForecast").html("");
+        });
 }
 
 //function to make server side api call and display current weather
 function currentWeather(currentUrl) {
     fetch(currentUrl)
-    .then(function(response){return response.json()})
-    .then(function(data){ 
-        console.log(data);
-        let currentDate = new Date(data.dt * 1000);
-        $(".currentWeather").attr("style", "border: 1px solid black");
-        $(".currentWeather").html(
-            `<h3>${data.name} (${currentDate.toLocaleDateString("en-US")})</h3> 
+        .then(function (response) { return response.json() })
+        .then(function (data) {
+            console.log(data);
+            let currentDate = new Date(data.dt * 1000);
+            $(".currentWeather").attr("style", "border: 1px solid black");
+            $(".currentWeather").html(
+                `<h3>${cityName} (${currentDate.toLocaleDateString("en-US")})</h3> 
             <figure>
             <img src="https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png"  alt="icon showing the weather">
             </figure>
@@ -59,24 +61,24 @@ function currentWeather(currentUrl) {
             <li>Wind: ${data.wind.speed} MPH</li>
             <li>Humidity: ${data.main.humidity} %</li></ul>`
             );
-    });        
+        });
 }
 
 // function to make server side api call and display forescast weather for next 5 days
 function forecastWeather(forecastUrl) {
     fetch(forecastUrl)
-    .then(function(response){return response.json()})
-    .then(function(data){ 
-        console.log(data);
-        let text = "5 Day Forecast:";
-        $("#future").text("5 day forecast:");
-        //use an array as per 3 hr forecase to retrive 5 days
-        let dayArr = [0, 8, 16, 24, 32];
-        //loop over the array and create a div for each day with the weather conditions as list items
-        dayArr.forEach(function (i) {
-        let futureDate = new Date(data.list[i].dt * 1000);
-        futureDate = futureDate.toLocaleDateString("en-US");
-        $(".futureForecast").append(`
+        .then(function (response) { return response.json() })
+        .then(function (data) {
+            console.log(data);
+            let text = "5 Day Forecast:";
+            $("#future").text("5 day forecast:");
+            //use an array as per 3 hr forecase to retrive 5 days
+            let dayArr = [0, 8, 16, 24, 32];
+            //loop over the array and create a div for each day with the weather conditions as list items
+            dayArr.forEach(function (i) {
+                let futureDate = new Date(data.list[i].dt * 1000);
+                futureDate = futureDate.toLocaleDateString("en-US");
+                $(".futureForecast").append(`
         <div>${futureDate}
         <figure>
         <img src="https://openweathermap.org/img/wn/${data.list[i].weather[0].icon}@2x.png" alt="icon showing the weather">
@@ -85,18 +87,18 @@ function forecastWeather(forecastUrl) {
          <li>Wind: ${data.list[i].wind.speed} MPH</li>
          <li>Humidity: ${data.list[i].main.humidity}%</li>
          </ul></div`
-        );       
-        })           
-    });        
+                );
+            })
+        });
 }
-  
+
 //clear recent searches
 $("#clear").on("click", function () {
     localStorage.clear();
     $("#storedCity").html("");
     location.reload();
 });
-    
+
 //event listener and get city from user input or saved cities
 submitFormEl.addEventListener("click", function () {
     city = inputEl.value.trim();
